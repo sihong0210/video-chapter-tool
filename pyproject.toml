@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "video-chapter-tool"
-version = "0.2.0a2"
+version = "0.2.0"
 description = "Windows long-video transcription and AI chapter navigation tool"
 readme = "README.md"
 requires-python = ">=3.11,<3.15"

@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import logging
 import shutil
+import sys
 import zipfile
 from datetime import datetime
 from pathlib import Path
@@ -210,7 +211,8 @@ class MainWindow(QMainWindow):
         heading.addWidget(subtitle)
         heading_row.addLayout(heading)
         heading_row.addStretch(1)
-        version = QLabel(f"介面預覽 · v{__version__}")
+        release_channel = "Portable" if getattr(sys, "frozen", False) else "開發版"
+        version = QLabel(f"{release_channel} · v{__version__}")
         version.setObjectName("versionBadge")
         heading_row.addWidget(version, alignment=Qt.AlignmentFlag.AlignTop)
         root.addLayout(heading_row)

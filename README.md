@@ -1,6 +1,6 @@
 # 直播影片摘要工具
 
-Windows 長影片逐字稿與 AI 章節導覽工具。目前 Stage 0～8 已完成；系統音訊擷取、長時間串流轉錄、SQLite 復原、逐字稿匯出、OpenAI AI 分章、本機多人標註、完整 GUI 與 one-folder EXE 均已通過實測。Stage 9 的 `0.2.0a2` 目前進行最終介面與工作階段管理驗收；Portable `UserData`、可搬移相對路徑、輪替日誌與安全診斷包已完成。介面確認前不建立新的交付 ZIP。
+Windows 長影片逐字稿與 AI 章節導覽工具。目前 Stage 0～9 已完成；系統音訊擷取、長時間串流轉錄、SQLite 復原、逐字稿匯出、OpenAI AI 分章、本機多人標註、完整 GUI、工作階段管理與 Portable one-folder EXE 均已通過實測。`0.2.0` 是首個完成介面與 Portable 實機驗收的正式版本。
 
 完整產品與階段規格請參閱 [windows_ai_video_chapter_plan.md](windows_ai_video_chapter_plan.md)。
 
@@ -13,7 +13,7 @@ Windows 長影片逐字稿與 AI 章節導覽工具。目前 Stage 0～8 已完�
 - Stage 4 使用 `opencc-pyo3 0.10.3` 產生臺灣繁體中文
 - Stage 6.5 使用 `pyannote.audio 4.0.7` 執行本機說話者分離；NVIDIA 開發環境使用 PyTorch 2.11.0 / CUDA 13.0
 - Stage 7 使用 `PySide6-Essentials 6.11.2` 建立 Windows Qt Widgets 介面
-- Stage 8 使用 `PyInstaller 6.20.0` 產生支援 Python 3.14 的 Windows one-folder Alpha
+- Stage 8～9 使用 `PyInstaller 6.20.0` 產生支援 Python 3.14 的 Windows one-folder Portable 版本
 
 封裝依賴鎖定於 `requirements-build.lock`。
 
@@ -286,18 +286,18 @@ python -m unittest discover -s tests -v
 python -m compileall -q app tests
 ```
 
-## Stage 8 Alpha EXE
+## Stage 9 Portable EXE
 
 建置工具安裝與乾淨建置：
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install -r requirements-build.lock
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\build_alpha.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\build_release.ps1
 ```
 
 腳本會依序執行完整測試、建立 one-folder、驗證 EXE 旁自動建立 `UserData`、執行 GUI 中文路徑 Smoke、在 EXE 內載入六組主要執行元件，再以受限 PATH 與隱藏 GPU 的環境驗證 CPU 回退。任一 Gate 失敗都不會建立交付 ZIP。模型、`.runtime` 與使用者資料不會封入套件。
 
-目前 NVIDIA／CPU 共用 Alpha 未壓縮約 3.78 GiB；主要體積來自 PyTorch CUDA、CUDA 12 BLAS 與本機說話者分析。使用與限制請參閱 [docs/ALPHA_README_zh-TW.md](docs/ALPHA_README_zh-TW.md)。
+目前 NVIDIA／CPU 共用正式版未壓縮約 3.78 GiB；主要體積來自 PyTorch CUDA、CUDA 12 BLAS 與本機說話者分析。使用與限制請參閱 [docs/PORTABLE_README_zh-TW.md](docs/PORTABLE_README_zh-TW.md)。
 
 ## 使用者資料位置
 
@@ -313,4 +313,4 @@ VideoChapterTool\UserData
 
 ## 版本編號
 
-專案採語意化版本：`主版本.次版本.修訂版`。`0.2.0a2` 表示 0.2.0 的第 2 個 Alpha；Portable 搬移、覆蓋更新、備份、工作階段管理與最終介面 Gate 通過後升為 `0.2.0`。不相容的大改版才升 `1.0.0`／`2.0.0`；相容的新功能升次版本，例如 `0.3.0`；錯誤修正升修訂版，例如 `0.2.1`。
+專案採語意化版本：`主版本.次版本.修訂版`。目前正式版本為 `0.2.0`；先前的 `0.2.0a1`、`0.2.0a2` 是內部 Alpha 驗收版。不相容的大改版才升 `1.0.0`／`2.0.0`；相容的新功能升次版本，例如 `0.3.0`；錯誤修正升修訂版，例如 `0.2.1`。
