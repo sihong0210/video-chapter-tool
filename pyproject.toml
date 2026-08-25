@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "video-chapter-tool"
+version = "0.2.0a2"
+description = "Windows long-video transcription and AI chapter navigation tool"
+readme = "README.md"
+requires-python = ">=3.11,<3.15"
+license = { text = "Proprietary" }
+authors = [
+  { name = "Video Chapter Tool contributors" }
+]
+dependencies = [
+  "faster-whisper==1.2.1",
+  "ctranslate2==4.8.1",
+  "opencc-pyo3==0.10.3",
+  "openai==2.51.0",
+  "PyAudioWPatch==0.2.12.8; sys_platform == 'win32'",
+]
+
+[project.optional-dependencies]
+diarization = [
+  "pyannote.audio==4.0.7",
+]
+gui = [
+  "PySide6-Essentials==6.11.2",
+]
+
+[project.scripts]
+video-chapter-tool = "app.main:entrypoint"
+video-chapter-tool-gui = "app.gui.entrypoint:entrypoint"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]
+
+[tool.unittest]
+start-directory = "tests"

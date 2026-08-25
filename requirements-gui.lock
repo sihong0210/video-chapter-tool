@@ -1,0 +1,5 @@
+# Stage 7 GUI dependency lock for Windows x64 / Python 3.14.
+# Install after requirements.lock with:
+# python -m pip install -r requirements-gui.lock
+PySide6-Essentials==6.11.2
+shiboken6==6.11.2
