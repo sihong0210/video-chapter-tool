@@ -49,6 +49,31 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         help=argparse.SUPPRESS,
     )
+    parser.add_argument(
+        "--packaged-inference-test-report",
+        type=Path,
+        help=argparse.SUPPRESS,
+    )
+    parser.add_argument(
+        "--packaged-inference-model-dir",
+        type=Path,
+        help=argparse.SUPPRESS,
+    )
+    parser.add_argument(
+        "--packaged-inference-device",
+        choices=("cpu", "cuda"),
+        help=argparse.SUPPRESS,
+    )
+    parser.add_argument(
+        "--packaged-diarization-cache-dir",
+        type=Path,
+        help=argparse.SUPPRESS,
+    )
+    parser.add_argument(
+        "--packaged-diarization-audio",
+        type=Path,
+        help=argparse.SUPPRESS,
+    )
     return parser
 
 
@@ -80,6 +105,29 @@ def main(argv: Sequence[str] | None = None) -> int:
         paths.root,
     )
     try:
+        if args.packaged_inference_test_report is not None:
+            if (
+                args.packaged_inference_model_dir is None
+                or args.packaged_inference_device is None
+            ):
+                logger.error(
+                    "Packaged inference test requires a model directory and device"
+                )
+                return 5
+            from app.diagnostics.cuda_isolation import (
+                write_packaged_inference_test,
+            )
+
+            passed = write_packaged_inference_test(
+                args.packaged_inference_test_report,
+                args.packaged_inference_model_dir,
+                requested_device=args.packaged_inference_device,
+                diarization_cache_directory=args.packaged_diarization_cache_dir,
+                diarization_audio_path=args.packaged_diarization_audio,
+            )
+            logger.info("Packaged inference test completed: passed=%s", passed)
+            return 0 if passed else 5
+
         if args.cuda_isolation_test_report is not None:
             if args.cuda_isolation_model_dir is None:
                 logger.error("CUDA isolation test requires a model directory")

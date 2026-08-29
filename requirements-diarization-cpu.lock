@@ -1,0 +1,13 @@
+# Portable CPU / AMD runtime for Windows x64 / Python 3.14.
+#
+# The explicit +cpu builds keep CUDA libraries out of the CPU package.  AMD
+# graphics cards currently run transcription and diarization on the CPU; all
+# application features remain available, only processing speed differs.
+# Install after requirements.lock with:
+# python -m pip install -r requirements-diarization-cpu.lock
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+pyannote.audio==4.0.7
+torch==2.11.0+cpu
+torchaudio==2.11.0+cpu
+torchcodec==0.13.0+cpu
