@@ -39,6 +39,16 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         help=argparse.SUPPRESS,
     )
+    parser.add_argument(
+        "--cuda-isolation-test-report",
+        type=Path,
+        help=argparse.SUPPRESS,
+    )
+    parser.add_argument(
+        "--cuda-isolation-model-dir",
+        type=Path,
+        help=argparse.SUPPRESS,
+    )
     return parser
 
 
@@ -70,6 +80,19 @@ def main(argv: Sequence[str] | None = None) -> int:
         paths.root,
     )
     try:
+        if args.cuda_isolation_test_report is not None:
+            if args.cuda_isolation_model_dir is None:
+                logger.error("CUDA isolation test requires a model directory")
+                return 4
+            from app.diagnostics.cuda_isolation import write_cuda_isolation_test
+
+            passed = write_cuda_isolation_test(
+                args.cuda_isolation_test_report,
+                args.cuda_isolation_model_dir,
+            )
+            logger.info("Packaged CUDA isolation test completed: passed=%s", passed)
+            return 0 if passed else 4
+
         if args.runtime_self_test_report is not None:
             from app.diagnostics.runtime_self_test import write_runtime_self_test
 

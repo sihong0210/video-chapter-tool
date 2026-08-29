@@ -9,6 +9,7 @@ from typing import Any
 
 
 SUPPORTED_DEVICE_REQUESTS = {"auto", "cpu", "cuda", "amd_experimental"}
+DISABLE_EXTERNAL_CUDA_DISCOVERY_ENV = "VCT_DISABLE_EXTERNAL_CUDA_DISCOVERY"
 _DLL_DIRECTORY_HANDLES: list[Any] = []
 _REGISTERED_DLL_DIRECTORIES: set[str] = set()
 
@@ -37,6 +38,8 @@ class RuntimeInfo:
 
 
 def _windows_cuda_dll_directories() -> tuple[Path, ...]:
+    if os.environ.get(DISABLE_EXTERNAL_CUDA_DISCOVERY_ENV) == "1":
+        return ()
     if os.name != "nt":
         return ()
 

@@ -7,9 +7,11 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from app.transcription.engine import (
+    DISABLE_EXTERNAL_CUDA_DISCOVERY_ENV,
     RuntimeInfo,
     WhisperEngine,
     _configure_windows_cuda_dll_search,
+    _windows_cuda_dll_directories,
     cuda_preflight_error,
     runtime_candidates,
 )
@@ -17,6 +19,14 @@ from app.transcription.transcriber import BasicTranscriber
 
 
 class RuntimeSelectionTests(unittest.TestCase):
+    @patch.dict(
+        "app.transcription.engine.os.environ",
+        {DISABLE_EXTERNAL_CUDA_DISCOVERY_ENV: "1"},
+        clear=False,
+    )
+    def test_external_cuda_discovery_can_be_disabled_for_release_gate(self) -> None:
+        self.assertEqual(_windows_cuda_dll_directories(), ())
+
     def test_close_releases_native_model_reference(self) -> None:
         runtime = RuntimeInfo(
             requested_device="cuda",
