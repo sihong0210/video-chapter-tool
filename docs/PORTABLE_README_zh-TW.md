@@ -1,16 +1,16 @@
-# 直播影片摘要工具 0.2.0（Portable）
+# 直播影片摘要工具 0.2.1（Portable）
 
-這是 Windows 10／11 64 位元 one-folder 版本。程式已隨附 Python 與執行元件，使用電腦不需要另外安裝 Python；請保留整個資料夾，不可只複製 `VideoChapterTool.exe`。
+這是 Windows 10／11 64 位元 one-folder 版本。程式已隨附 Python 與執行元件，使用電腦不需要另外安裝 Python；請保留整個資料夾，不可只複製 `VideoChapterTool.exe`。本工具採 MIT License，授權文字位於同一資料夾的 `LICENSE.txt`。
 
 ## 啟動
 
-1. 將 ZIP 完整解壓縮到一般可寫入的資料夾。
+1. CPU 版直接解壓單一 RAR；NVIDIA 版先下載所有分卷並放在同一資料夾，再從 `.part1.rar` 完整解壓縮到一般可寫入的資料夾。
 2. 執行 `VideoChapterTool.exe`。
 3. 到「設定」選擇模型與匯出資料夾。
 4. 到「模型與復原」下載並驗證 `small` 或 `medium` Whisper 模型。
 5. 需要 AI 摘要或多人標註時，再分別保存 OpenAI API Key 與 Hugging Face Token。
 
-模型不包含在程式 ZIP 內。第一次啟動會在 EXE 旁建立：
+模型不包含在程式壓縮檔內。第一次啟動會在 EXE 旁建立：
 
 ```text
 VideoChapterTool\
@@ -31,7 +31,7 @@ VideoChapterTool\
 ## 更新、備份與移除
 
 - 更新前先關閉程式，將整個 `UserData` 複製到另一個磁碟或壓縮成 ZIP。
-- 新版本 ZIP 不含 `UserData`。建議解壓到新資料夾，再把舊 `UserData` 整個移入；也可保留既有 `UserData`，用新程式檔與 `_internal` 覆蓋舊版本。
+- 新版本壓縮檔不含 `UserData`。建議解壓到新資料夾，再把舊 `UserData` 整個移入；也可保留既有 `UserData`，用新程式檔與 `_internal` 覆蓋舊版本。
 - 若模型或匯出設定指向 Portable 資料夾外，完整備份時也要另外備份那些外部資料夾。
 - 這是免安裝版本，不寫入解除安裝清單。要移除程式，先備份需要的逐字稿，再刪除整個程式資料夾；Windows 憑證管理員中的 API Key／Token 可先在設定頁按「刪除」。
 - 從開發用 `.runtime` 延續資料時，應先以新版程式開啟該資料目錄一次完成路徑升級，關閉後再把 `.runtime` 的完整內容複製為 Portable 的 `UserData`。
@@ -44,10 +44,10 @@ VideoChapterTool\
 
 ## CPU、NVIDIA 與 AMD
 
-- 沒有 NVIDIA GPU 時會使用 CPU；功能可用，但 Whisper 與說話者分析會比較慢。
-- NVIDIA 版已隨附 Whisper 所需的 CUDA 12 BLAS，以及 PyTorch CUDA 13 執行元件；仍需要相容的 NVIDIA 顯示卡與驅動程式。
+- CPU 版使用 PyTorch CPU；沒有 NVIDIA GPU、使用 Intel／AMD 顯示晶片或希望下載較小套件時，請選擇此版本。功能完整，但 Whisper 與說話者分析會比較慢。
+- NVIDIA 版已隨附 Whisper 所需的 CUDA 12 BLAS，以及完整 PyTorch CUDA 13 執行元件；仍需要相容的 NVIDIA 顯示卡與驅動程式。
 - 自動模式若無法使用 CUDA，Whisper 會回退 CPU。診斷頁可確認實際硬體與運算狀態。
-- AMD GPU 目前使用 CPU 路徑；ROCm／HIP 加速不在 0.2.0 範圍。
+- AMD GPU 目前使用 CPU 路徑；ROCm／HIP 加速不在 0.2.1 範圍。
 
 建議至少預留 10 GiB 可用空間，另依模型、錄製時長與未完成復原音訊增加。成功處理的 Chunk 會清理，不會無限保留 WAV；失敗或強制關閉時則會保留待復原音訊。
 
@@ -57,7 +57,7 @@ VideoChapterTool\
 - Hugging Face 模型與 pyannote 說話者分析在本機執行。
 - API Key 與 Token 保存在目前 Windows 使用者的憑證管理員，不寫入一般設定檔、SQLite 或日誌。
 
-## 0.2.0 已知限制
+## 0.2.1 已知限制
 
 - 此版本尚未做程式碼簽章，Windows SmartScreen 或防毒可能第一次警告或花較久時間掃描。請只使用可信來源提供且 SHA-256 相符的檔案。
 - 目前擷取整個 Windows 預設播放裝置的系統音訊，尚不能指定單一瀏覽器或目標視窗。

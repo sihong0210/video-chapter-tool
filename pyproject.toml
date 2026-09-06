@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "video-chapter-tool"
-version = "0.2.0"
+version = "0.2.1"
 description = "Windows long-video transcription and AI chapter navigation tool"
 readme = "README.md"
 requires-python = ">=3.11,<3.15"
-license = { text = "Proprietary" }
+license = { text = "MIT" }
 authors = [
   { name = "Video Chapter Tool contributors" }
 ]

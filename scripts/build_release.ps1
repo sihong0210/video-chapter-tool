@@ -10,14 +10,15 @@ $repoRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")).Path
 $python = Join-Path $repoRoot ".venv\Scripts\python.exe"
 $spec = Join-Path $repoRoot "packaging\VideoChapterTool.spec"
 $releaseRoot = Join-Path $repoRoot "release"
-$distRoot = Join-Path $releaseRoot "v0.2.0"
+$distRoot = Join-Path $releaseRoot "v0.2.1"
 $workRoot = Join-Path $repoRoot "build\pyinstaller-release"
 $matplotlibCache = Join-Path $repoRoot "build\matplotlib"
 $appFolder = Join-Path $distRoot "VideoChapterTool"
-$version = "0.2.0"
+$version = "0.2.1"
 $archive = Join-Path $releaseRoot "VideoChapterTool-$version-win64.zip"
 $portableGuide = Join-Path $repoRoot "docs\PORTABLE_README_zh-TW.md"
-$releaseNotes = Join-Path $repoRoot "docs\RELEASE_NOTES_0.2.0_zh-TW.md"
+$releaseNotes = Join-Path $repoRoot "docs\RELEASE_NOTES_0.2.1_zh-TW.md"
+$license = Join-Path $repoRoot "LICENSE"
 
 if (-not (Test-Path -LiteralPath $python -PathType Leaf)) {
     throw "Project virtual environment not found: $python"
@@ -68,6 +69,7 @@ try {
 
     Copy-Item -LiteralPath $portableGuide -Destination (Join-Path $appFolder "README_zh-TW.md") -Force
     Copy-Item -LiteralPath $releaseNotes -Destination (Join-Path $appFolder "RELEASE_NOTES_zh-TW.md") -Force
+    Copy-Item -LiteralPath $license -Destination (Join-Path $appFolder "LICENSE.txt") -Force
 
     $portableData = Join-Path $appFolder "UserData"
     if (Test-Path -LiteralPath $portableData) {

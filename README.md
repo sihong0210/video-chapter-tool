@@ -1,23 +1,23 @@
 # 直播影片摘要工具
 
-Windows 長影片逐字稿與 AI 章節導覽工具。目前 Stage 0～9 已完成；系統音訊擷取、長時間串流轉錄、SQLite 復原、逐字稿匯出、OpenAI AI 分章、本機多人標註、完整 GUI、工作階段管理與 Portable one-folder EXE 均已通過實測。`0.2.0` 是首個完成介面與 Portable 實機驗收的正式版本。
+Windows 長影片逐字稿與 AI 章節導覽工具。目前 Stage 0～9 已完成；系統音訊擷取、長時間串流轉錄、SQLite 復原、逐字稿匯出、OpenAI AI 分章、本機多人標註、完整 GUI、工作階段管理與 Portable one-folder EXE 均已通過實測。`0.2.0` 是首個完成介面與 Portable 實機驗收的正式版本；`0.2.1` 將 CPU／NVIDIA 執行環境分開發佈，並改採 MIT 授權。
 
 完整產品與階段規格請參閱 [windows_ai_video_chapter_plan.md](windows_ai_video_chapter_plan.md)。
 
 ## 下載 Windows Portable
 
-正式版請到 [GitHub Release v0.2.0](https://github.com/sihong0210/video-chapter-tool/releases/tag/v0.2.0) 下載。請選擇 CPU 或 NVIDIA 版；GitHub 自動產生的 `Source code (zip)` 與 `Source code (tar.gz)` 不是可直接執行的 Portable 版本。
+正式版請到 [GitHub Release v0.2.1](https://github.com/sihong0210/video-chapter-tool/releases/tag/v0.2.1) 下載。請選擇 CPU 或 NVIDIA 版；GitHub 自動產生的 `Source code (zip)` 與 `Source code (tar.gz)` 不是可直接執行的 Portable 版本。
 
 ### CPU 版
 
-下載單一檔案 `VideoChapterTool-0.2.0-CPU-win64.rar`。適合沒有 NVIDIA 顯示卡、使用 Intel／AMD 顯示晶片，或希望下載較小套件的使用者。Whisper 與說話者分離都會使用 CPU。
+下載單一檔案 `VideoChapterTool-0.2.1-CPU-win64.rar`。適合沒有 NVIDIA 顯示卡、使用 Intel／AMD 顯示晶片，或希望下載較小套件的使用者。Whisper 與說話者分離都會使用 CPU。
 
 ### NVIDIA 版
 
 必須同時下載下列兩個分卷：
 
-- `VideoChapterTool-0.2.0-NVIDIA-win64.part1.rar`
-- `VideoChapterTool-0.2.0-NVIDIA-win64.part2.rar`
+- `VideoChapterTool-0.2.1-NVIDIA-win64.part1.rar`
+- `VideoChapterTool-0.2.1-NVIDIA-win64.part2.rar`
 
 將兩個分卷放在同一資料夾並保持原始檔名，再使用 WinRAR 對 `.part1.rar` 解壓縮；不要單獨解壓 `.part2.rar`。套件內含完整 CUDA 執行元件，一般使用者不必另外安裝 CUDA Toolkit，但仍需安裝相容的 NVIDIA 顯示卡驅動程式。
 
@@ -342,4 +342,8 @@ VideoChapterTool\UserData
 
 ## 版本編號
 
-專案採語意化版本：`主版本.次版本.修訂版`。目前正式版本為 `0.2.0`；先前的 `0.2.0a1`、`0.2.0a2` 是內部 Alpha 驗收版。不相容的大改版才升 `1.0.0`／`2.0.0`；相容的新功能升次版本，例如 `0.3.0`；錯誤修正升修訂版，例如 `0.2.1`。
+專案採語意化版本：`主版本.次版本.修訂版`。目前正式版本為 `0.2.1`；`0.2.0` 是首個正式 Portable 版本，先前的 `0.2.0a1`、`0.2.0a2` 是內部 Alpha 驗收版。不相容的大改版才升 `1.0.0`／`2.0.0`；相容的新功能升次版本，例如 `0.3.0`；錯誤修正升修訂版，例如 `0.2.2`。
+
+## 授權
+
+本專案採用 [MIT License](LICENSE)。
