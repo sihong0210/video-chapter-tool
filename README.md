@@ -4,6 +4,35 @@ Windows 長影片逐字稿與 AI 章節導覽工具。目前 Stage 0～9 已完�
 
 完整產品與階段規格請參閱 [windows_ai_video_chapter_plan.md](windows_ai_video_chapter_plan.md)。
 
+## 下載 Windows Portable
+
+正式版請到 [GitHub Release v0.2.0](https://github.com/sihong0210/video-chapter-tool/releases/tag/v0.2.0) 下載。請選擇 CPU 或 NVIDIA 版；GitHub 自動產生的 `Source code (zip)` 與 `Source code (tar.gz)` 不是可直接執行的 Portable 版本。
+
+### CPU 版
+
+下載單一檔案 `VideoChapterTool-0.2.0-CPU-win64.rar`。適合沒有 NVIDIA 顯示卡、使用 Intel／AMD 顯示晶片，或希望下載較小套件的使用者。Whisper 與說話者分離都會使用 CPU。
+
+### NVIDIA 版
+
+必須同時下載下列兩個分卷：
+
+- `VideoChapterTool-0.2.0-NVIDIA-win64.part1.rar`
+- `VideoChapterTool-0.2.0-NVIDIA-win64.part2.rar`
+
+將兩個分卷放在同一資料夾並保持原始檔名，再使用 WinRAR 對 `.part1.rar` 解壓縮；不要單獨解壓 `.part2.rar`。套件內含完整 CUDA 執行元件，一般使用者不必另外安裝 CUDA Toolkit，但仍需安裝相容的 NVIDIA 顯示卡驅動程式。
+
+### 執行需求與注意事項
+
+- 支援 Windows 10／11 64 位元。
+- CPU 版解壓後約需 0.83 GiB；NVIDIA 版約需 3.78 GiB。模型另占空間，建議至少保留 10 GiB 可用空間。
+- 完整解壓縮後執行 `VideoChapterTool.exe`；不要將 EXE 單獨移出資料夾，也不要刪除 `_internal`。
+- Whisper 與說話者分離模型不包含在壓縮檔內，第一次使用時需另行下載。
+- Whisper 本機轉錄不需要 OpenAI API Key；AI 章節摘要功能才需要 OpenAI API Key。
+- 說話者分離需要 Hugging Face Token，並須先接受 pyannote 模型的使用條款。
+- 程式目前沒有程式碼簽章，Windows SmartScreen 可能顯示警告。請使用 Release 附帶的 `SHA256SUMS.txt` 核對檔案完整性。
+
+2026-09-06 已完成兩個最終壓縮來源的實際推論 Gate：CPU 版通過 Whisper CPU／INT8 與 pyannote CPU；NVIDIA 版在 NVIDIA GeForce RTX 5060 Laptop GPU 通過 Whisper CUDA／FP16 與 pyannote CUDA。NVIDIA Gate 已停用外部 CUDA 搜尋，確認測試使用套件內附的完整 CUDA 執行元件。
+
 ## 開發環境
 
 - Windows 10 / 11
@@ -295,9 +324,9 @@ python -m compileall -q app tests
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\build_release.ps1
 ```
 
-腳本會依序執行完整測試、建立 one-folder、驗證 EXE 旁自動建立 `UserData`、執行 GUI 中文路徑 Smoke、在 EXE 內載入六組主要執行元件，再以受限 PATH 與隱藏 GPU 的環境驗證 CPU 回退。任一 Gate 失敗都不會建立交付 ZIP。模型、`.runtime` 與使用者資料不會封入套件。
+腳本會依序執行完整測試、建立 one-folder、驗證 EXE 旁自動建立 `UserData`、執行 GUI 中文路徑 Smoke、在 EXE 內載入六組主要執行元件，再以受限 PATH 與隱藏 GPU 的環境驗證 CPU 回退。任一 Gate 失敗都不會建立交付產物。模型、`.runtime` 與使用者資料不會封入套件。
 
-目前 NVIDIA／CPU 共用正式版未壓縮約 3.78 GiB；主要體積來自 PyTorch CUDA、CUDA 12 BLAS 與本機說話者分析。使用與限制請參閱 [docs/PORTABLE_README_zh-TW.md](docs/PORTABLE_README_zh-TW.md)。
+GitHub Release 目前分為兩個執行環境：CPU 版使用 PyTorch CPU，未壓縮約 0.83 GiB；NVIDIA 版使用 PyTorch CUDA 13.0 並保留完整 CUDA 執行元件，未壓縮約 3.78 GiB。兩者皆為 one-folder Portable，分別以單一 RAR 與兩個 RAR 分卷發佈。使用與限制請參閱 [docs/PORTABLE_README_zh-TW.md](docs/PORTABLE_README_zh-TW.md)。
 
 ## 使用者資料位置
 
